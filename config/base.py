@@ -12,7 +12,7 @@ LOG_PATH = '/srv/services/templates/logs/x.log'
 
 def gen_sql_uri(db_name, charset='utf8mb4'):
     driver = 'mysql+pymysql'
-    user_pwd = 'root:txy000***txy'
+    user_pwd = 'user:passwd'
     host_port = 'localhost:3306'
     return f'{driver}://{user_pwd}@{host_port}/{db_name}?charset={charset}'
 
