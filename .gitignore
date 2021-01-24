@@ -1,0 +1,14 @@
+.idea
+.vscode
+
+venv
+tmp
+logs
+
+*.pyc
+*.sqlite
+*.xml
+
+config/local*
+config/settings.py
+local_run.sh
