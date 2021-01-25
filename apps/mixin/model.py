@@ -8,7 +8,7 @@ from apps.db import db
 class BaseModel(db.Model):
     __abstract__ = True
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.BigInteger, primary_key=True)
     created_at = db.Column(db.DateTime, server_default=func.now(), comment='创建时间')
     updated_at = db.Column(
         db.DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'), comment='更新时间')
@@ -32,6 +32,7 @@ def db_session_commit():
 
 
 class ModelMixin(object):
+
     __slots__ = {}
 
     def __init__(self, **kwargs):
@@ -51,22 +52,17 @@ class ModelMixin(object):
         if commit:
             db_session_commit()
 
-    def add(self):
-        # 添加数据
-
-        db.session.add(self)
-
     def update(self, **kwargs):
         # 修改数据
 
-        required_commit = False
+        commit = False
         for k, v in kwargs.items():
             if hasattr(self, k) and getattr(self, k) != v:
-                required_commit = True
+                commit = True
                 setattr(self, k, v)
-        if required_commit:
+        if commit:
             db_session_commit()
-        return required_commit
+        return commit
 
     def to_json(self, excludes=None, selects=None):
         # 返回json格式数据，序列化
@@ -77,11 +73,9 @@ class ModelMixin(object):
         elif selects:
             return {i: getattr(self, i) for i in selects}
         elif excludes:
-            return {i.name: getattr(self, i.name)
-                    for i in self.__table__.columns if i.name not in excludes}
+            return {i.name: getattr(self, i.name) for i in self.__table__.columns if i.name not in excludes}
         else:
-            return {i.name: getattr(self, i.name)
-                    for i in self.__table__.columns}
+            return {i.name: getattr(self, i.name) for i in self.__table__.columns}
 
     @classmethod
     def get(cls, **kwargs):
