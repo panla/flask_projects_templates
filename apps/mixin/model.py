@@ -35,7 +35,7 @@ def db_session_commit():
 
 class ModelMixin(object):
 
-    __slots__ = {}
+    __slots__ = ()
 
     def __init__(self, **kwargs):
         pass
@@ -70,8 +70,7 @@ class ModelMixin(object):
         # 返回json格式数据，序列化
 
         if not hasattr(self, '__table__'):
-            raise AssertionError(
-                '<%r> does not have attribute for __table__' % self)
+            raise AssertionError('<%r> does not have attribute for __table__' % self)
         elif selects:
             return {i: getattr(self, i) for i in selects}
         elif excludes:
