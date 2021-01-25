@@ -1,3 +1,4 @@
+from sqlalchemy.orm import validates
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from apps.db import db
@@ -13,6 +14,12 @@ class Account(BaseModel, ModelMixin):
     name = db.Column(db.String(50), nullable=False, server_default='', comment='姓名')
     nickname = db.Column(db.String(50), nullable=False, server_default='', comment='昵称')
     password_hash = db.Column(db.String(300), nullable=False, comment='密码加密')
+
+    @validates('cellphone')
+    def validate_cellphone(self, key, value):
+        if Account.query.filter(Account.id != self.id, Account.cellphone == value).first():
+            raise Exception('该手机号已存在!')
+        return value
 
     @property
     def password(self):

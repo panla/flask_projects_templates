@@ -9,10 +9,12 @@ class BaseModel(db.Model):
     __abstract__ = True
 
     id = db.Column(db.BigInteger, primary_key=True)
-    created_at = db.Column(db.DateTime, server_default=func.now(), comment='创建时间')
+    created_at = db.Column(db.DateTime, nullable=False, server_default=text('CURRENT_TIMESTAMP'), comment='创建时间')
     updated_at = db.Column(
-        db.DateTime, server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'), comment='更新时间')
-    is_delete = db.Column(db.Boolean, server_default=text('0'), comment='删除标志')
+        db.DateTime, nullable=False,
+        server_default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'), comment='更新时间'
+        )
+    is_delete = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='删除标志')
 
     @property
     def created_time(self):
