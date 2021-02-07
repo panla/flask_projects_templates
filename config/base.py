@@ -38,6 +38,8 @@ JWT_SECRET_KEY = 'aHi9cqDOWaS8zJFFT/55MQ=='
 TOKEN_EXP_DELTA = timedelta(days=30)
 
 ####################################################################################
+# redis 数据库连接参数
+
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379
 # 第几个 redis 数据库
