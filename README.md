@@ -21,8 +21,8 @@ pip install -r doc/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ## 配置
 
-[gunicorn 参考配置](config/settings.py)
-[flask 项目参考配置](config/base.py)
+- [gunicorn 参考配置](config/settings.py)
+- [flask 项目参考配置](config/base.py)
 
 ## 运行
 
