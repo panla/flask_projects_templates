@@ -72,7 +72,7 @@ class BackstageAccount(db.Model, ModelMixin):
 
     id = db.Column(UNSIGNED_BIGINTEGER, autoincrement=True, primary_key=True)
     account_id = db.Column(UNSIGNED_BIGINTEGER, unique=True, nullable=False, comment='统一账户')
-    role_id = db.Column(db.Integer, nullable=False, comment='角色id')
+    role_id = db.Column(UNSIGNED_INTEGER, nullable=False, comment='角色id')
     is_staff = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='是否是平台方账号')
 
     @property
