@@ -46,7 +46,8 @@ def decode_auth_token(auth_token: str):
     """校验 token"""
 
     now = datetime.now().timestamp()
-    payload = jwt.decode(auth_token, current_app.config.get('JWT_SECRET_KEY'), options={'verify_exp': True})
+    jwt_secret_key = current_app.config.get('JWT_SECRET_KEY')
+    payload = jwt.decode(auth_token, jwt_secret_key, algorithms='HS256', options={'verify_exp': True})
     if isinstance(payload, dict) and (
             payload.get('data') and payload.get('data').get('id') and payload.get('data').get('table') == 'accounts'):
         account = Account.get(id=payload['data']['id'], is_delete=False)
