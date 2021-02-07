@@ -3,7 +3,7 @@ from sqlalchemy import text
 
 from apps.db import db
 from apps.mixin.model import BaseModel, ModelMixin
-from apps.mixin.model import UNSIGNED_SMALLINT
+from apps.mixin.model import UNSIGNED_BIGINTEGER, UNSIGNED_SMALLINT
 
 
 class BackstagePermission(db.Model, ModelMixin):
@@ -38,3 +38,14 @@ class BackstageRole(db.Model, ModelMixin):
     def validate_name(self, key, value):
         if BackstageRole.query.filter(BackstageRole.id != self.id, BackstageRole.name == value).first():
             raise Exception('该角色名称已存在')
+
+
+class BackstageAccount(db.Model, ModelMixin):
+
+    __tablename__ = 'backstage_accounts'
+    __table_args__ = ({'comment': '后台管理系统账户表'})
+
+    id = db.Column(UNSIGNED_BIGINTEGER, autoincrement=True, primary_key=True)
+    account_id = db.Column(UNSIGNED_BIGINTEGER, unique=True, nullable=False, comment='统一账户')
+    role_id = db.Column(db.Integer, nullable=False, comment='角色id')
+    is_staff = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='是否是平台方账号')
