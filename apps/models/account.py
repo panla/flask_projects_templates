@@ -11,7 +11,7 @@ class Account(BaseModel, ModelMixin):
     __table_args__ = ({'comment': '账户表'})
 
     cellphone = db.Column(db.String(12), unique=True, nullable=False, comment='手机号')
-    name = db.Column(db.String(50), nullable=False, server_default='', comment='姓名')
+    name = db.Column(db.String(50), index=True, nullable=False, server_default='', comment='姓名')
     nickname = db.Column(db.String(50), nullable=False, server_default='', comment='昵称')
     password_hash = db.Column(db.String(300), nullable=False, comment='密码加密')
     login_at = db.Column(db.DateTime, comment='登录时间')
