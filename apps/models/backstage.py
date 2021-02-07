@@ -34,6 +34,7 @@ class BackstageRole(db.Model, ModelMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False, unique=True, comment='角色名称')
+    desc = db.Column(db.String(100), nullable=False, comment='角色描述')
     permissions_set = db.Column(db.String(200), nullable=False, comment='权限id,以,分割')
     is_delete = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='删除标志')
 
