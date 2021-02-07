@@ -8,7 +8,6 @@ from lib.tools import responses
 from lib.error_define import ErrorCode
 from apps.entities.v1.backstage.backstage_role import filter_parser, create_parser, patch_parser
 from apps.entities.v1.backstage.backstage_role import role_fields
-from apps.entities.v1.backstage.backstage_permission import permission_fields
 from apps.logics.v1.backstage.backstage_role import filter_roles, patch_role
 from apps.logics.v1.backstage.backstage_permission import build_permissions
 

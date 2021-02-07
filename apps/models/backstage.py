@@ -87,3 +87,11 @@ class BackstageAccount(db.Model, ModelMixin):
 
         from apps.models import Account
         return Account.get(id=self.account_id, is_delete=False)
+
+    @property
+    def permissions(self):
+        from apps.logics.v1.backstage.backstage_permission import build_permissions
+
+        if self.role and self.role.permissions:
+            return build_permissions(self.role.permissions)
+        return []

@@ -12,7 +12,9 @@ blueprint.after_request(after_req_logger_info)
 
 from .token import TokenView
 from .backstage_role import BackstageRolesView, BackstageRoleView
+from .backstage_account import ProfileView
 
 api.add_resource(TokenView, '/tokens')
 api.add_resource(BackstageRolesView, '/roles')
 api.add_resource(BackstageRoleView, '/roles/<int:r_id>')
+api.add_resource(ProfileView, '/profile')
