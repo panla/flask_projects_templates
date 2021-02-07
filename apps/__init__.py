@@ -5,6 +5,7 @@ from lib.init_logger import set_logger_handle
 from lib.init_logger import process_exception
 from lib.init_extension import init_extension
 from lib.init_redis import init_redis
+from lib.init_blueprints import register_blueprints
 from apps.models import *
 
 
@@ -17,6 +18,7 @@ def create_app(config_file):
     init_cross(app)
     init_extension(app)
     init_redis(app)
+    register_blueprints(app)
 
     app.register_error_handler(Exception, process_exception)
 
