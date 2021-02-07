@@ -10,6 +10,5 @@ logs
 *.xml
 
 config/local*
-config/settings.py
 local_run.sh
 /settings.py
