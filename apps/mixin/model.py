@@ -1,14 +1,27 @@
 from flask import current_app
-from sqlalchemy import func
 from sqlalchemy import text
+from sqlalchemy.dialects.mysql import BIGINT, INTEGER, SMALLINT, TINYINT
 
 from apps.db import db
+
+UNSIGNED_BIGINTEGER = BIGINT(unsigned=True)
+UNSIGNED_INTEGER = INTEGER(unsigned=True)
+UNSIGNED_SMALLINT = SMALLINT(unsigned=True)
+UNSIGNED_TINYINT = TINYINT(unsigned=True)
+
+
+def db_session_commit():
+    try:
+        db.session.commit()
+    except Exception as exc:
+        db.session.rollback()
+        current_app.logger.error(exc)
 
 
 class BaseModel(db.Model):
     __abstract__ = True
 
-    id = db.Column(db.BigInteger, primary_key=True)
+    id = db.Column(UNSIGNED_BIGINTEGER, primary_key=True)
     created_at = db.Column(db.DateTime, nullable=False, server_default=text('CURRENT_TIMESTAMP'), comment='创建时间')
     updated_at = db.Column(
         db.DateTime, nullable=False,
@@ -23,14 +36,6 @@ class BaseModel(db.Model):
     @property
     def updated_time(self):
         return self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
-
-
-def db_session_commit():
-    try:
-        db.session.commit()
-    except Exception as exc:
-        db.session.rollback()
-        current_app.logger.error(exc)
 
 
 class ModelMixin(object):
