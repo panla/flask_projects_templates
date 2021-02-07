@@ -1,3 +1,5 @@
+import traceback
+
 from flask import request
 from flask import make_response
 from flask import current_app
@@ -36,6 +38,7 @@ def process_exception(error):
     current_app.logger.error(f'error {request.method}, {request.path} error'.center(60, '*'))
     if isinstance(error, HTTPException):
         current_app.logger.error('error is {} {} end.'.format(error.code, error.description))
+        current_app.logger.error(traceback.format_exc())
         current_app.logger.error('error'.center(40, '*'))
         return responses(status_code=error.code, code=10200, message=error.description)
     current_app.logger.error('error is {} end.'.format(error))
