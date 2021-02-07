@@ -8,6 +8,7 @@ from flask import request
 from werkzeug.exceptions import HTTPException
 
 from lib.tools import responses
+from lib.error_define import ErrorCode
 
 
 def set_logger_handle(app):
@@ -36,7 +37,7 @@ def process_exception(error):
         current_app.logger.error('error is {} {} end.'.format(error.code, error.description))
         current_app.logger.error(traceback.format_exc())
         current_app.logger.error('end error'.center(40, '*'))
-        return responses(status_code=error.code, code=10200, message=error.description)
+        return responses(status_code=error.code, code=ErrorCode.known_error.get('code'), message=error.description)
     current_app.logger.error('error is {} end.'.format(error))
     current_app.logger.error('end error'.center(40, '*'))
-    return responses(status_code=400, code=10200, message=f'{error}')
+    return responses(status_code=400, code=ErrorCode.known_error.get('code'), message=f'{error}')
