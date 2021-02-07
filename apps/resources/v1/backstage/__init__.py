@@ -9,3 +9,10 @@ api = Api(blueprint)
 
 blueprint.before_request(identify)
 blueprint.after_request(after_req_logger_info)
+
+from .token import TokenView
+from .backstage_role import BackstageRolesView, BackstageRoleView
+
+api.add_resource(TokenView, '/tokens')
+api.add_resource(BackstageRolesView, '/roles')
+api.add_resource(BackstageRoleView, '/roles/<int:r_id>')
