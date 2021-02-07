@@ -31,24 +31,24 @@ class RedisClient(object):
         value = self.r.get(key)
         return value.decode('utf-8') if value else value
 
-    def hset(self, name, key, value):
+    def hash_set(self, name, key, value):
         """写入hash表"""
 
         self.r.hset(name, key, value)
 
-    def hmset(self, key, *value):
+    def hash_set_key(self, key, *value):
         """读取指定hash表的所有给定字段的值"""
 
         value = self.r.hmset(key, *value)
         return value
 
-    def hget(self, name, key):
+    def hash_get(self, name, key):
         """读取指定hash表的键值"""
 
         value = self.r.hget(name, key)
         return value.decode('utf-8') if value else value
 
-    def hgetall(self, name):
+    def hash_get_keys(self, name):
         """获取指定hash表所有的值"""
 
         return self.r.hgetall(name)
@@ -58,7 +58,7 @@ class RedisClient(object):
 
         self.r.delete(*names)
 
-    def hdel(self, name, key):
+    def hash_del(self, name, key):
         """删除指定hash表的键值"""
 
         self.r.hdel(name, key)
