@@ -15,7 +15,7 @@ def authenticate(cellphone: str, code: str, passwd: str):
 
     account = Account.get(cellphone=cellphone, is_delete=False)
     if account:
-        b_account = BackstageAccount.get(account_id=account.id, is_delete=False)
+        b_account = BackstageAccount.get(account_id=account.id)
         if not b_account:
             return responses(message='该账号不是后台管理系统账号', **ErrorCode.not_exist)
         if not b_account.role:
@@ -34,8 +34,9 @@ def authenticate(cellphone: str, code: str, passwd: str):
         account.save()
 
         data = {
-            'token': token.decode(),
-            'id': account.id
+            'token': token,
+            'account_id': account.id,
+            'backstage_account_id': b_account.id
         }
         return responses(data=data, **ErrorCode.success_201)
     return responses(message='账户不存在', **ErrorCode.not_exist)
@@ -49,7 +50,7 @@ def decode_auth_token(auth_token: str):
     if isinstance(payload, dict) and (
             payload.get('data') and payload.get('data').get('id') and payload.get('data').get('table') == 'accounts'):
         account = Account.get(id=payload['data']['id'], is_delete=False)
-        b_account = BackstageAccount.get(account_id=account.id, is_delete=False)
+        b_account = BackstageAccount.get(account_id=account.id)
         if not b_account:
             return responses(message='该账号不是后台管理系统账号', **ErrorCode.not_exist)
         if not b_account.role:
