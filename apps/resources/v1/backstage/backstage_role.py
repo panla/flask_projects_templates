@@ -42,7 +42,7 @@ class BackstageRoleView(Resource):
         role = BackstageRole.get(id=r_id)
         if role:
             permissions = build_permissions(role.permissions)
-            permissions = marshal(permissions, permission_fields)
+            current_app.logger.debug(permissions)
             role = marshal(role, role_fields)
             role['permissions'] = permissions
             return responses(data=role)
