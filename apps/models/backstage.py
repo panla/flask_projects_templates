@@ -25,6 +25,7 @@ class BackstagePermission(db.Model, ModelMixin):
         if BackstagePermission.query.filter(
                 BackstagePermission.id != self.id, BackstagePermission.name == value).first():
             raise Exception('该权限名称已存在')
+        return value
 
 
 class BackstageRole(db.Model, ModelMixin):
@@ -44,6 +45,7 @@ class BackstageRole(db.Model, ModelMixin):
 
         if BackstageRole.query.filter(BackstageRole.id != self.id, BackstageRole.name == value).first():
             raise Exception('该角色名称已存在')
+        return value
 
     @property
     def permission_ids(self) -> list:
@@ -57,6 +59,10 @@ class BackstageRole(db.Model, ModelMixin):
         _permission_ids = self.permissions_set.split(',')
         return BackstagePermission.query.filter(
             BackstagePermission.id.in_(_permission_ids), BackstagePermission.is_delete.is_(False))
+
+    @permissions.setter
+    def permissions(self, value: list):
+        self.permissions_set = ','.join(value)
 
 
 class BackstageAccount(db.Model, ModelMixin):
