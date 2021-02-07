@@ -1,3 +1,5 @@
+from flask import current_app
+
 from common.redis_tools import RedisClient
 
 

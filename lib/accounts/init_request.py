@@ -4,6 +4,7 @@ from flask import g
 
 from lib.accounts.auth import decode_auth_token
 from lib.tools import responses
+from lib.error_define import ErrorCode
 
 
 def identify():
@@ -17,8 +18,8 @@ def identify():
         payload = decode_auth_token(header_token)
         if isinstance(payload, dict) and payload.get('data') and payload.get('data').get('id'):
             return None
-        return responses(status_code=401, code=10001, message='登录超时，请重新登录')
-    return responses(status_code=401, code=10001, message='未获得X-TOKEN')
+        return responses(**ErrorCode.token_decode_error)
+    return responses(**ErrorCode.headers_need_x_token)
 
 
 def after_req_logger_info(response):

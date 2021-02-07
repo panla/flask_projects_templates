@@ -7,6 +7,7 @@ import jwt
 from apps.models import Account
 from lib.jwt_tools import encode_token
 from lib.tools import responses
+from lib.error_define import ErrorCode
 
 
 def authenticate(cellphone: str, code: str, passwd: str):
@@ -16,12 +17,12 @@ def authenticate(cellphone: str, code: str, passwd: str):
     if account:
         if code:
             if current_app.redis.read(cellphone) != code:
-                return responses(status_code=401, code=10001, message='手机短信验证码错误')
+                return responses(**ErrorCode.code_error)
         elif passwd:
             if not account.verify_password(passwd):
-                return responses(status_code=401, code=10001, message='账户密码错误')
+                return responses(**ErrorCode.passwd_error)
         else:
-            responses(status_code=401, code=10001, message='登录需要手机短信验证码或账户密码')
+            responses(**ErrorCode.need_code_passwd)
         token, login_at, login_expired_at = encode_token(account.id, 'accounts')
         account.login_at = login_at
         account.login_expired_at = login_expired_at
@@ -31,8 +32,8 @@ def authenticate(cellphone: str, code: str, passwd: str):
             'token': token.decode(),
             'id': account.id
         }
-        return responses(status_code=201, message='登录成功', data=data)
-    return responses(status_code=404, code=10001, message='账户不存在')
+        return responses(data=data, **ErrorCode.success_201)
+    return responses(message='账户不存在', **ErrorCode.not_exist)
 
 
 def decode_auth_token(auth_token: str):
@@ -44,11 +45,11 @@ def decode_auth_token(auth_token: str):
             payload.get('data') and payload.get('data').get('id') and payload.get('data').get('table') == 'accounts'):
         account = Account.get(id=payload['data']['id'], is_delete=False)
         if not account:
-            return responses(status_code=401, code=10001, message='请重新登录')
+            return responses(message='请重新登录', **ErrorCode.not_exist)
         if payload['data']['login_expired_at'] + 5 < now:
-            return responses(status_code=401, code=10001, message='登录过期，请重新登录')
+            return responses(**ErrorCode.login_expired)
         if payload['data']['login_at'] + 5 < account.login_at.timestamp():
-            return responses(status_code=401, code=10001, message='登录失效，请重新登录')
+            return responses(**ErrorCode.login_expired)
         g.account = account
         return payload
-    return responses(status_code=401, code=10001, message='登录验证错误，请重新登录')
+    return responses(**ErrorCode.token_decode_error)
