@@ -14,6 +14,8 @@ class Account(BaseModel, ModelMixin):
     name = db.Column(db.String(50), nullable=False, server_default='', comment='姓名')
     nickname = db.Column(db.String(50), nullable=False, server_default='', comment='昵称')
     password_hash = db.Column(db.String(300), nullable=False, comment='密码加密')
+    login_at = db.Column(db.DateTime, comment='登录时间')
+    login_expired_at = db.Column(db.DateTime, comment='登录过期时间')
 
     @validates('cellphone')
     def validate_cellphone(self, key, value):
