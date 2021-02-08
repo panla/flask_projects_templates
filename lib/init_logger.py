@@ -39,5 +39,6 @@ def process_exception(error):
         current_app.logger.error('end error'.center(40, '*'))
         return responses(status_code=error.code, code=ResponseCode.known_error.get('code'), message=error.description)
     current_app.logger.error('error is {} end.'.format(error))
+    current_app.logger.error(traceback.format_exc())
     current_app.logger.error('end error'.center(40, '*'))
     return responses(status_code=400, code=ResponseCode.known_error.get('code'), message=f'{error}')
