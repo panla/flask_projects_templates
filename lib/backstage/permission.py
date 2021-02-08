@@ -10,7 +10,7 @@ def admin_access_required(role_lis: list):
     def required(func):
         def decorator(*args, **kwargs):
             roles = BackstageRole.query.filter(BackstageRole.name.in_(role_lis)).all()
-            if (g.b_account.role not in roles) or (not g.b_account.is_stff):
+            if (g.b_account.role not in roles) or (not g.b_account.is_staff):
                 return responses(**ErrorCode.no_access)
             return func(*args, **kwargs)
         return decorator
@@ -20,7 +20,7 @@ def admin_access_required(role_lis: list):
 def staff_access_required():
     def required(func):
         def decorator(*args, **kwargs):
-            if not g.b_account.is_stff:
+            if not g.b_account.is_staff:
                 return responses(**ErrorCode.no_access)
             return func(*args, **kwargs)
         return decorator
