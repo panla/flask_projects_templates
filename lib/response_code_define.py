@@ -1,4 +1,4 @@
-class ErrorCode(object):
+class ResponseCode(object):
 
     success = {'status_code': 200, 'code': 10000, 'message': '请求成功'}
     success_201 = {'status_code': 201, 'code': 10000}

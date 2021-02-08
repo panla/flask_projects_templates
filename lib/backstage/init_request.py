@@ -4,7 +4,7 @@ from flask import g
 
 from lib.backstage.auth import decode_auth_token
 from lib.tools import responses
-from lib.error_define import ErrorCode
+from lib.response_code_define import ResponseCode
 
 
 def identify():
@@ -18,11 +18,11 @@ def identify():
         payload = decode_auth_token(header_token)
         if not g.b_account.role.permissions.filter_by(
                 endpoint=request.endpoint.split('.')[-1], method=request.method).first():
-            return responses(**ErrorCode.no_access)
+            return responses(**ResponseCode.no_access)
         if isinstance(payload, dict) and payload.get('data') and payload.get('data').get('id'):
             return None
-        return responses(**ErrorCode.token_decode_error)
-    return responses(**ErrorCode.headers_need_x_token)
+        return responses(**ResponseCode.token_decode_error)
+    return responses(**ResponseCode.headers_need_x_token)
 
 
 def after_req_logger_info(response):
