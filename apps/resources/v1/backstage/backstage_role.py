@@ -6,7 +6,7 @@ from flask_restful import Resource
 from apps.models import BackstageRole
 from lib.tools import responses
 from lib.error_define import ErrorCode
-from lib.backstage.permission import super_admin_user_required, staff_user_required
+from lib.backstage.permission import admin_access_required, staff_access_required
 from apps.entities.v1.backstage.backstage_role import filter_parser, create_parser, patch_parser
 from apps.entities.v1.backstage.backstage_role import role_fields
 from apps.logics.v1.backstage.backstage_role import filter_roles, patch_role
@@ -15,7 +15,7 @@ from apps.logics.v1.backstage.backstage_permission import build_permissions
 
 class BackstageRolesView(Resource):
 
-    @super_admin_user_required()
+    @staff_access_required()
     def get(self):
         """后台管理系统角色列表"""
 
@@ -27,7 +27,7 @@ class BackstageRolesView(Resource):
         roles = marshal(list(roles), role_fields)
         return responses(data={'total': total, 'roles': roles})
 
-    @super_admin_user_required()
+    @admin_access_required(['超级管理员', '二级管理员', '三级管理员'])
     def post(self):
         """后台管理系统角色创建"""
 
@@ -38,7 +38,7 @@ class BackstageRolesView(Resource):
 
 class BackstageRoleView(Resource):
 
-    @staff_user_required()
+    @staff_access_required()
     def get(self, r_id):
         """角色详情"""
 
@@ -51,7 +51,7 @@ class BackstageRoleView(Resource):
             return responses(data=role)
         return responses(message='该角色不存在', **ErrorCode.not_exist)
 
-    @super_admin_user_required()
+    @admin_access_required(['超级管理员'])
     def delete(self, r_id):
         """更新角色删除状态"""
 
@@ -65,7 +65,7 @@ class BackstageRoleView(Resource):
             return responses(**ErrorCode.delete_success)
         return responses(message='该角色不存在', **ErrorCode.not_exist)
 
-    @super_admin_user_required()
+    @admin_access_required(['超级管理员'])
     def patch(self, r_id):
         """更新角色"""
 

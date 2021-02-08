@@ -16,3 +16,4 @@ class ErrorCode(object):
     token_decode_error = {'status_code': 401, 'code': 20007, 'message': '登录验证错误'}
     headers_need_x_token = {'status_code': 401, 'code': 20008, 'message': '请求头中需要X-TOKEN'}
     known_error = {'status_code': 400, 'code': 20009, 'message': '主动抛出错误'}
+    no_access = {'status_code': 403, 'code': 20010, 'message': '该用户缺少所需权限'}
