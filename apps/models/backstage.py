@@ -7,50 +7,6 @@ from apps.mixin.model import BaseModel, ModelMixin
 from apps.mixin.model import UNSIGNED_BIGINTEGER, UNSIGNED_INTEGER, UNSIGNED_SMALLINT
 
 
-class BackstagePermission(db.Model, ModelMixin):
-
-    __tablename__ = 'backstage_permissions'
-    __table_args__ = ({'comment': '后台管理系统页面权限表'})
-
-    id = db.Column(UNSIGNED_SMALLINT, autoincrement=True, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False, comment='权限名称')
-    desc = db.Column(db.String(100), nullable=False, comment='权限描述')
-    parent_id = db.Column(UNSIGNED_SMALLINT, comment='父级权限')
-    is_delete = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='删除标志')
-
-    @validates('name')
-    def validate_name(self, key, value):
-        """校验权限名称"""
-
-        if BackstagePermission.query.filter(
-                BackstagePermission.id != self.id, BackstagePermission.name == value).first():
-            raise Exception('该权限名称已存在')
-        return value
-
-
-class ApiPermission(db.Model, ModelMixin):
-
-    __tablename__ = 'api_permissions'
-    __table_args__ = ({'comment': '接口权限表'})
-
-    id = db.Column(UNSIGNED_SMALLINT, primary_key=True)
-    endpoint = db.Column(db.String(300), nullable=False, unique=True, comment='endpoint')
-    methods = db.Column(db.String(50), nullable=False, comment='请求方法,')
-    is_delete = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='删除标志')
-
-    @validates('endpoint')
-    def validate_endpoint(self, key, value):
-        """校验权限名称"""
-
-        if ApiPermission.query.filter(ApiPermission.id != self.id, ApiPermission.endpoint == value).first():
-            raise Exception('该endpoint已存在')
-        return value
-
-    @property
-    def methods_(self):
-        return self.methods.split(',')
-
-
 class BackstageRole(db.Model, ModelMixin):
 
     __tablename__ = 'backstage_roles'
@@ -78,10 +34,10 @@ class BackstageRole(db.Model, ModelMixin):
     @property
     def permissions(self) -> BaseQuery:
         """所拥有的权限"""
+        from apps.models import ApiPermission
 
         _permission_ids = self.permissions_set.split(',')
-        return BackstagePermission.query.filter(
-            BackstagePermission.id.in_(_permission_ids), BackstagePermission.is_delete.is_(False))
+        return ApiPermission.query.filter(ApiPermission.id.in_(_permission_ids), ApiPermission.is_delete.is_(False))
 
     @permissions.setter
     def permissions(self, value: list):
