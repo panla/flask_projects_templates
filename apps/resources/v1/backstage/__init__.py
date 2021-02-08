@@ -14,7 +14,7 @@ from .token import TokenView
 from .backstage_role import BackstageRolesView, BackstageRoleView
 from .backstage_account import ProfileView
 
-api.add_resource(TokenView, '/tokens')
-api.add_resource(BackstageRolesView, '/roles')
-api.add_resource(BackstageRoleView, '/roles/<int:r_id>')
-api.add_resource(ProfileView, '/profile')
+api.add_resource(TokenView, '/tokens', endpoint='api_v1_backstage_tokens')
+api.add_resource(BackstageRolesView, '/roles', endpoint='api_v1_backstage_roles')
+api.add_resource(BackstageRoleView, '/roles/<int:r_id>', endpoint='api_v1_backstage_role')
+api.add_resource(ProfileView, '/profile', endpoint='api_v1_backstage_profile')
