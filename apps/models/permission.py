@@ -12,12 +12,13 @@ class ApiPermission(db.Model, ModelMixin):
     __table_args__ = ({'comment': '接口权限表'})
 
     id = db.Column(UNSIGNED_SMALLINT, primary_key=True)
-    endpoint = db.Column(db.String(300), nullable=False, unique=True, comment='endpoint')
+    endpoint = db.Column(db.String(300), unique=True, comment='endpoint')
     methods = db.Column(db.String(50), nullable=False, comment='请求方法,')
     is_delete = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='删除标志')
     name = db.Column(db.String(50), nullable=False, unique=True, comment='权限名称')
     parent_id = db.Column(UNSIGNED_SMALLINT, comment='父级权限')
     desc = db.Column(db.String(100), comment='描述简介')
+    url = db.Column(db.String(200), comment='页面url')
 
     @validates('endpoint')
     def validate_endpoint(self, key, value):
