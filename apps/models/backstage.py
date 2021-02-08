@@ -15,7 +15,7 @@ class BackstageRole(db.Model, ModelMixin):
     id = db.Column(UNSIGNED_INTEGER, primary_key=True)
     name = db.Column(db.String(30), nullable=False, unique=True, comment='角色名称')
     desc = db.Column(db.String(100), nullable=False, comment='角色描述')
-    permissions_set = db.Column(db.String(200), nullable=False, comment='权限id,以,分割')
+    permissions_set = db.Column(db.String(500), nullable=False, comment='权限id,以,分割')
     is_delete = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='删除标志')
 
     @validates('name')
@@ -51,7 +51,7 @@ class BackstageAccount(db.Model, ModelMixin):
 
     id = db.Column(UNSIGNED_BIGINTEGER, autoincrement=True, primary_key=True)
     account_id = db.Column(UNSIGNED_BIGINTEGER, unique=True, nullable=False, comment='统一账户')
-    role_id = db.Column(UNSIGNED_INTEGER, nullable=False, comment='角色id')
+    role_id = db.Column(UNSIGNED_INTEGER, index=True, nullable=False, comment='角色id')
     is_staff = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='是否是平台方账号')
 
     @property
