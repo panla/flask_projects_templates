@@ -13,4 +13,4 @@ class TokenView(Resource):
         parser.add_argument('cellphone', type=str, required=True, help='手机号')
         parser.add_argument('password', type=str, required=True, help='密码')
         params = parser.parse_args()
-        return authenticate(cellphone=params['cellphone'], code=None, passwd=params['password'])
+        return authenticate(cellphone=params['cellphone'], code='', passwd=params['password'])

@@ -5,7 +5,7 @@ from flask_restful import Resource
 
 from apps.models import BackstageRole
 from lib.tools import responses
-from lib.response_code_define import ResponseCode
+from lib.code_define import Code
 from apps.entities.v1.backstage.backstage_role import filter_parser, create_parser, patch_parser
 from apps.entities.v1.backstage.backstage_role import role_fields
 from apps.logics.v1.backstage.backstage_role import filter_roles, patch_role
@@ -30,7 +30,7 @@ class BackstageRolesView(Resource):
 
         params = create_parser.parse_args()
         role = BackstageRole(**params).save()
-        return responses(data={'id': role.id}, **ResponseCode.create_success)
+        return responses(data={'id': role.id}, **Code.create_success)
 
 
 class BackstageRoleView(Resource):
@@ -44,7 +44,7 @@ class BackstageRoleView(Resource):
             role = marshal(role, role_fields)
             role['permissions'] = permissions
             return responses(data=role)
-        return responses(message='该角色不存在', **ResponseCode.not_exist)
+        return responses(message='该角色不存在', **Code.not_exist)
 
     def delete(self, r_id):
         """更新角色删除状态"""
@@ -56,8 +56,8 @@ class BackstageRoleView(Resource):
             else:
                 role.is_delete = False
             role.save()
-            return responses(**ResponseCode.delete_success)
-        return responses(message='该角色不存在', **ResponseCode.not_exist)
+            return responses(**Code.delete_success)
+        return responses(message='该角色不存在', **Code.not_exist)
 
     def patch(self, r_id):
         """更新角色"""
@@ -66,5 +66,5 @@ class BackstageRoleView(Resource):
         role = BackstageRole.get(id=r_id)
         if role:
             patch_role(params, role)
-            return responses(**ResponseCode.patch_success)
-        return responses(message='该角色不存在', **ResponseCode.not_exist)
+            return responses(**Code.patch_success)
+        return responses(message='该角色不存在', **Code.not_exist)

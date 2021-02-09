@@ -1,7 +1,5 @@
 import redis
 
-from flask import current_app
-
 
 class RedisClient(object):
     """redis数据库操作工具"""
@@ -14,6 +12,9 @@ class RedisClient(object):
         else:
             self.r = redis.Redis(host, port, db)
         self.redis_expire = expire
+
+    def init_app(self, app):
+        setattr(app, 'redis', self)
 
     def write(self, key, value, expire=None):
         """写入键值对"""
