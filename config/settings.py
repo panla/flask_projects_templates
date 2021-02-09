@@ -2,7 +2,7 @@ import multiprocessing
 
 
 # 监听端口或UNIX socket
-bind = 'unix:/srv/flask_projects_templates/tmp/gunicorn.log'
+bind = 'unix:/srv/flask_projects_templates/tmp/gunicorn.sock'
 # bind = '127.0.0.1:8000'
 
 # 进程数
