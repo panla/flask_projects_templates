@@ -12,7 +12,7 @@ class BackstageRole(db.Model, ModelMixin):
     __tablename__ = 'backstage_roles'
     __table_args__ = ({'comment': '后台管理系统角色表'})
 
-    id = db.Column(UNSIGNED_INTEGER, primary_key=True)
+    id = db.Column(UNSIGNED_INTEGER, autoincrement=True, primary_key=True)
     name = db.Column(db.String(30), nullable=False, unique=True, comment='角色名称')
     desc = db.Column(db.String(100), nullable=False, comment='角色描述')
     permissions_set = db.Column(db.String(500), nullable=False, comment='权限id,以,分割')
