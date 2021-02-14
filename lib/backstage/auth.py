@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import current_app
 from flask import g
+from flask import request
 import jwt
 
 from apps.models import Account, BackstageAccount
@@ -62,6 +63,9 @@ def decode_auth_token(auth_token: str):
             return responses(**Code.login_expired)
         if payload['data']['login_at'] + 5 < account.login_at.timestamp():
             return responses(**Code.login_expired)
+        if not g.b_account.role.permissions.filter_by(
+                endpoint=request.endpoint.split('.')[-1], method=request.method).first():
+            return responses(**Code.no_access)
         g.account = account
         g.b_account = b_account
         return payload

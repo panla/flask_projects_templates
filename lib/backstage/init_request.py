@@ -16,9 +16,6 @@ def identify():
     header_token = request.headers.get('X-TOKEN')
     if header_token:
         payload = decode_auth_token(header_token)
-        if not g.b_account.role.permissions.filter_by(
-                endpoint=request.endpoint.split('.')[-1], method=request.method).first():
-            return responses(**Code.no_access)
         if isinstance(payload, dict) and payload.get('data') and payload.get('data').get('id'):
             return None
         return responses(**Code.token_decode_error)
