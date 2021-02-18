@@ -14,9 +14,9 @@ class RedisClient(object):
         self.redis_expire = expire
 
     def init_app(self, app):
-        setattr(app, 'redis', self)
+        setattr(app, 'redis_client', self)
 
-    def write(self, key, value, expire=None):
+    def string_set(self, key, value, expire=None):
         """写入键值对"""
 
         # 判断是否有过期时间，没有就设置默认值
@@ -26,7 +26,7 @@ class RedisClient(object):
             expire_in_seconds = self.redis_expire
         self.r.set(key, value, ex=expire_in_seconds)
 
-    def read(self, key):
+    def string_get(self, key):
         """读取键值对内容"""
 
         value = self.r.get(key)
@@ -37,17 +37,17 @@ class RedisClient(object):
 
         self.r.hset(name, key, value)
 
-    def hash_set_key(self, key, *value):
-        """读取指定hash表的所有给定字段的值"""
-
-        value = self.r.hmset(key, *value)
-        return value
-
     def hash_get(self, name, key):
         """读取指定hash表的键值"""
 
         value = self.r.hget(name, key)
         return value.decode('utf-8') if value else value
+
+    def hash_set_keys(self, key, *value):
+        """读取指定hash表的所有给定字段的值"""
+
+        value = self.r.hmset(key, *value)
+        return value
 
     def hash_get_keys(self, name):
         """获取指定hash表所有的值"""
@@ -67,10 +67,7 @@ class RedisClient(object):
     def expire(self, name, expire=None):
         """设置过期时间"""
 
-        if expire:
-            expire_in_seconds = expire
-        else:
-            expire_in_seconds = self.redis_expire
+        expire_in_seconds = expire or self.redis_expire
         self.r.expire(name, expire_in_seconds)
 
     def __new__(cls, *args, **kwargs):
