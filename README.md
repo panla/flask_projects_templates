@@ -31,5 +31,5 @@ python manager.py run
 ```
 
 ```bash
-gunicorn -c settings.py --log-level=debug --reload manager:app
+gunicorn -c settings.py manager:app
 ```
