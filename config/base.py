@@ -17,11 +17,10 @@ def gen_sql_uri(db_name, charset='utf8mb4'):
     return f'{driver}://{user_pwd}@{host_port}/{db_name}?charset={charset}'
 
 
-SQLALCHEMY_DATABASE_URI = gen_sql_uri('db1')
+SQLALCHEMY_DATABASE_URI = gen_sql_uri('master')
 
 SQLALCHEMY_BINDS = {
-    'db2': gen_sql_uri('db2'),
-    'db3': gen_sql_uri('db3')
+    'slave': gen_sql_uri('db_slave')
 }
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
