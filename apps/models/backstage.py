@@ -8,7 +8,6 @@ from apps.mixin.model import UNSIGNED_BIGINTEGER, UNSIGNED_INTEGER, UNSIGNED_SMA
 
 
 class BackstageRole(db.Model, ModelMixin):
-
     __tablename__ = 'backstage_roles'
     __table_args__ = ({'comment': '后台管理系统角色表'})
 
@@ -45,7 +44,6 @@ class BackstageRole(db.Model, ModelMixin):
 
 
 class BackstageAccount(db.Model, ModelMixin):
-
     __tablename__ = 'backstage_accounts'
     __table_args__ = ({'comment': '后台管理系统账户表'})
 

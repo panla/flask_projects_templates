@@ -6,7 +6,6 @@ from apps.mixin.model import BaseModel, ModelMixin
 
 
 class Account(BaseModel, ModelMixin):
-
     __tablename__ = 'accounts'
     __table_args__ = ({'comment': '账户表'})
 

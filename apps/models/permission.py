@@ -8,7 +8,6 @@ from apps.mixin.model import UNSIGNED_SMALLINT
 
 
 class ApiPermission(db.Model, ModelMixin):
-
     __tablename__ = 'api_permissions'
 
     id = db.Column(UNSIGNED_SMALLINT, primary_key=True)
@@ -30,7 +29,7 @@ class ApiPermission(db.Model, ModelMixin):
         """校验 endpoint """
 
         if ApiPermission.query.filter(
-            ApiPermission.id != self.id, ApiPermission.method == self.method, ApiPermission.endpoint == value
+                ApiPermission.id != self.id, ApiPermission.method == self.method, ApiPermission.endpoint == value
         ).first():
             raise Exception('该 endpoint 和 method 已存在')
         return value
