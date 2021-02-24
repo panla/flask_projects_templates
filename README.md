@@ -4,7 +4,7 @@
 
 ## 环境
 
-> python -V 3.7.9
+> Python -V 3.7.9
 
 建立虚拟环境
 
@@ -16,7 +16,9 @@ python3.7 -m venv .
 安装所需第三方库
 
 ```bash
+source ./venv/bin/activate
 pip install -r doc/requirements.txt [-i https://pypi.tuna.tsinghua.edu.cn/simple]
+deactivate
 ```
 
 ## 配置
