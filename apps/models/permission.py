@@ -9,10 +9,10 @@ from apps.mixin.model import UNSIGNED_SMALLINT
 
 class ApiPermission(db.Model, ModelMixin):
     id = db.Column(UNSIGNED_SMALLINT, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=True, comment='权限名称')
     endpoint = db.Column(db.String(300), index=True, comment='endpoint')
     method = db.Column(db.String(10), nullable=False, comment='请求方法')
-    parent_id = db.Column(UNSIGNED_SMALLINT, index=True, comment='父级权限')
+    name = db.Column(db.String(50), nullable=False, unique=True, comment='权限名称')
+    parent_id = db.Column(UNSIGNED_SMALLINT, comment='父级权限')
     url = db.Column(db.String(200), comment='页面url')
     desc = db.Column(db.String(100), comment='描述简介')
     is_delete = db.Column(db.Boolean, nullable=False, server_default=text('0'), comment='删除标志')

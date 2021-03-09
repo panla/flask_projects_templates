@@ -26,12 +26,12 @@ def after_req_logger_info(response):
     """打印日志信息"""
 
     current_app.logger.info('start request'.center(40, '*'))
+    current_app.logger.info('{} {}'.format(request.method, request.url))
     if hasattr(g, 'account') and hasattr(g, 'b_account'):
         account_id = g.account.id
         b_account_id = g.b_account.id
         phone = g.account.cellphone
         current_app.logger.info(f'Account.id={account_id} BAccount.id={b_account_id} Account.cellphone={phone} end.')
-    current_app.logger.info('{} {}'.format(request.method, request.url))
     if request.json:
         current_app.logger.info(request.json)
     current_app.logger.info('end request'.center(40, '*'))
