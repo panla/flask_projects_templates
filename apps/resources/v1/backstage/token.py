@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask_restful import reqparse
 
-from lib.backstage.auth import authenticate
+from apps.lib.backstage.auth import authenticate
 
 
 class TokenView(Resource):

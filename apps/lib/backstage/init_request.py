@@ -2,9 +2,9 @@ from flask import request
 from flask import current_app
 from flask import g
 
-from lib.backstage.auth import decode_auth_token
-from lib.tools import responses
-from lib.code_define import Code
+from apps.lib.backstage.auth import decode_auth_token
+from apps.lib.tools import responses
+from apps.lib.code_define import Code
 
 
 def identify():

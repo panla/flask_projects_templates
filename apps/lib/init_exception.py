@@ -4,8 +4,8 @@ from flask import current_app
 from flask import request
 from werkzeug.exceptions import HTTPException
 
-from lib.tools import responses
-from lib.code_define import Code
+from apps.lib.tools import responses
+from apps.lib.code_define import Code
 
 
 def process_exception(error):

@@ -2,7 +2,7 @@ from flask import g
 from flask_restful import Resource
 from flask_restful import marshal
 
-from lib.tools import responses
+from apps.lib.tools import responses
 from apps.entities.v1.backstage.backstage_account import detail_info_fields
 
 

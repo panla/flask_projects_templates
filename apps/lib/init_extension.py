@@ -1,7 +1,7 @@
 from flask import current_app
 from flask_migrate import Migrate
 
-from common.redis_client import RedisClient
+from apps.common.redis_client import RedisClient
 from apps.db import db
 
 

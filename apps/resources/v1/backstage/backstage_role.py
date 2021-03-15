@@ -4,8 +4,8 @@ from flask_restful import marshal
 from flask_restful import Resource
 
 from apps.models import BackstageRole
-from lib.tools import responses
-from lib.code_define import Code
+from apps.lib.tools import responses
+from apps.lib.code_define import Code
 from apps.entities.v1.backstage.backstage_role import filter_parser, create_parser, patch_parser
 from apps.entities.v1.backstage.backstage_role import role_fields
 from apps.logics.v1.backstage.backstage_role import filter_roles, patch_role

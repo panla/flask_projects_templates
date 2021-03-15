@@ -6,9 +6,9 @@ from flask import request
 import jwt
 
 from apps.models import Account, BackstageAccount
-from lib.jwt_tools import encode_token
-from lib.tools import responses
-from lib.code_define import Code
+from apps.lib.jwt_tools import encode_token
+from apps.lib.tools import responses
+from apps.lib.code_define import Code
 
 
 def authenticate(cellphone: str, code: str, passwd: str):
